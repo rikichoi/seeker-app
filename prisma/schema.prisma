@@ -7,6 +7,23 @@ datasource db {
   url      = env("MONGODB_DATABASE_URL")
 }
 
+model Company {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  companyName String
+  description String
+  industry    String
+  size        String
+  location    String
+  website     String
+  type        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Job       Job[]
+
+  @@map("companies")
+}
+
 model Job {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   benefits          String[]
@@ -20,6 +37,10 @@ model Job {
   applicationMethod String
   expiryDate        DateTime
   applyLink         String
+  highlights        String[]
+  industry          String
+  companyId         String   @db.ObjectId
+  company           Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

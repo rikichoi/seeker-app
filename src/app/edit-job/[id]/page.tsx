@@ -1,64 +1,26 @@
+"use client"
 import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import React from "react";
+import EditJobDetails from "./actions";
 
-async function createJob(formData: FormData) {
-  "use server";
-  const title = formData.get("title")?.toString();
-  const description = formData.get("description")?.toString();
-  const location = formData.get("location")?.toString();
-  const applyLink = formData.get("applyLink")?.toString();
-  const minSalary = Number(formData.get("minSalary"));
-  const maxSalary = Number(formData.get("maxSalary"));
-  const applicationMethod = formData.get("applicationMethod")?.toString();
-  const employmentType = formData.get("employmentType")?.toString();
-  const expiryDate = formData.get("expiryDate")
-    ? new Date(formData.get("expiryDate") as string).toISOString()
-    : undefined;
-  const industry = formData.get("industry")?.toString();
-  const highlights1 = formData.get("highlights1")?.toString() ?? "";
-  const highlights2 = formData.get("highlights2")?.toString() ?? "";
-  const highlights3 = formData.get("highlights3")?.toString() ?? "";
+type EditJobPageProps = {
+  params: {
+    id: string;
+  };
+};
 
-  if (
-    !title ||
-    !description ||
-    !location ||
-    !applyLink ||
-    !minSalary ||
-    !maxSalary ||
-    !applicationMethod ||
-    !employmentType ||
-    !expiryDate ||
-    !industry
-  ) {
-    throw new Error("All fields are required");
-  }
 
-  await prisma.job.create({
-    data: {
-      title: title,
-      description: description,
-      location: location,
-      applyLink: applyLink,
-      minSalary: minSalary,
-      maxSalary: maxSalary,
-      applicationMethod: applicationMethod,
-      employmentType: employmentType,
-      expiryDate: expiryDate,
-      industry: industry,
-      highlights: [highlights1, highlights2, highlights3],
-      companyId: "66c35a6012bb27190a61fb3a",
-    },
-  });
-  redirect("/");
-}
-
-export default function AddJobPage() {
+export default async function EditJobPage({
+  params: { id },
+}: EditJobPageProps) {
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-3xl font-bold text-center">Add Job</h1>
-      <form action={createJob} className="flex flex-col gap-4">
+      <h1 className="text-3xl font-bold text-center">Edit Job</h1>
+      <form
+        action={(formData) => EditJobDetails(id, formData)}
+        className="flex flex-col gap-4"
+      >
         <input
           required
           name="title"
@@ -122,7 +84,7 @@ export default function AddJobPage() {
           placeholder="Expiry Date"
           className="input input-bordered w-full "
         />
-                <input
+        <input
           required
           name="industry"
           placeholder="Industry"
@@ -150,8 +112,7 @@ export default function AddJobPage() {
           placeholder="Highlights"
           className="input input-bordered w-full "
         />
-
-        <button className="btn btn-primary">Add Job</button>
+        <button className="btn btn-primary">Edit Job</button>
       </form>
     </div>
   );
