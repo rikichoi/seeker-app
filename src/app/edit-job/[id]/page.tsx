@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -10,8 +10,7 @@ type EditJobPageProps = {
   };
 };
 
-
-export default async function EditJobPage({
+export default function EditJobPage({
   params: { id },
 }: EditJobPageProps) {
   return (
