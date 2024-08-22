@@ -9,7 +9,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -57,6 +57,9 @@ export default async function Navbar() {
           <ul className="menu menu-horizontal px-1">
             {session ? (
               <>
+                <li>
+                  <Link href={"/listings"}>View Jobs</Link>
+                </li>
                 <li>
                   <Link href={"/add-job"}>Add Job</Link>
                 </li>

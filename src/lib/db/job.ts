@@ -8,7 +8,11 @@ export type JobWithCompany = Prisma.JobGetPayload<{
 }>
 
 export async function getJobs() {
-    const jobs = await prisma.job.findMany({ include: { company: true } });
+    const jobs = await prisma.job.findMany({
+        include: { company: true }, orderBy: {
+            createdAt: 'asc',
+        },
+    });
     return jobs
 }
 
@@ -19,6 +23,6 @@ export async function getJobById(jobId: string) {
         },
         include: { company: true },
     });
-    
+
     return job
 }
