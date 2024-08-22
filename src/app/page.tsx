@@ -1,4 +1,4 @@
-import JobInfoView from "@/components/JobInfoView";
+import JobInfoViewContainer from "@/components/JobInfoViewContainer";
 import JobListingItem from "@/components/JobListingItem";
 import { getJobs } from "@/lib/db/job";
 import prisma from "@/lib/db/prisma";
@@ -15,17 +15,16 @@ async function removeJob(id: string) {
 
 export default async function Home() {
   const jobs = await getJobs();
-  const companies = await prisma.company.findMany();
-  return (
-    <main className="flex flex-col gap-12 lg:flex-row  justify-between px-24">
 
+  return (
+    <main className="flex flex-col gap-12 lg:flex-row min-h-screen justify-between px-24">
       <div className="flex flex-col gap-8 flex-1">
         {jobs.map((job) => (
           <JobListingItem key={job.id} job={job} />
         ))}
       </div>
 
-      <JobInfoView />
+      <JobInfoViewContainer />
     </main>
   );
 }

@@ -2,6 +2,7 @@ import { JobWithCompany } from "@/lib/db/job";
 import { Job } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 type JobListingItemProps = {
@@ -10,12 +11,12 @@ type JobListingItemProps = {
 
 export default function JobListingItem({ job }: JobListingItemProps) {
   return (
-    <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-xl hover:border-cyan-950">
-      <Link href={"/job/" + job.id}>
+    <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
+      <Link href={"/?jobId=" + job.id}>
         <figure>
           <Image
             src={job.company.companyImage}
-            className="rounded-t-lg"
+            className="rounded-t-md"
             alt="Shoes"
             width={384}
             height={384}

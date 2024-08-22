@@ -32,22 +32,21 @@ export default async function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
+            {session ? (
+              <>
                 <li>
-                  <a>Submenu 1</a>
+                  <Link href={"/add-job"}>Add Job</Link>
                 </li>
                 <li>
-                  <a>Submenu 2</a>
+                  <Link href={"/add-company"}>Add Company</Link>
                 </li>
-              </ul>
-            </li>
+              </>
+            ) : (
+              ""
+            )}
+
             <li>
-              <a>Item 3</a>
+              <Link href={"/company"}>View Companies</Link>
             </li>
           </ul>
         </div>
@@ -56,12 +55,19 @@ export default async function Navbar() {
         </Link>
         <div className="navbar-center  hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li>
-              <Link href={"/add-job"}>Add Job</Link>
-            </li>
-            <li>
-              <Link href={"/add-company"}>Add Company</Link>
-            </li>
+            {session ? (
+              <>
+                <li>
+                  <Link href={"/add-job"}>Add Job</Link>
+                </li>
+                <li>
+                  <Link href={"/add-company"}>Add Company</Link>
+                </li>
+              </>
+            ) : (
+              ""
+            )}
+
             <li>
               <Link href={"/company"}>View Companies</Link>
             </li>
@@ -69,7 +75,7 @@ export default async function Navbar() {
         </div>
       </div>
 
-      <UserProfileButton session={session}/>
+      <UserProfileButton session={session} />
     </div>
   );
 }

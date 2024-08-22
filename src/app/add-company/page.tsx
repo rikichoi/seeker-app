@@ -1,9 +1,13 @@
 import prisma from "@/lib/db/prisma";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 async function createCompany(formData: FormData) {
   "use server";
+  const session = await getServerSession(authOptions);
+
   const companyName = formData.get("companyName")?.toString();
   const industry = formData.get("industry")?.toString();
   const size = formData.get("size")?.toString();
@@ -12,6 +16,7 @@ async function createCompany(formData: FormData) {
   const description = formData.get("description")?.toString();
   const type = formData.get("type")?.toString();
   const companyImage = formData.get("companyImage")?.toString();
+  const userId = session?.user.id;
 
   if (
     !companyName ||
@@ -35,12 +40,17 @@ async function createCompany(formData: FormData) {
       description: description,
       type: type,
       companyImage: companyImage,
+      userId: userId,
     },
   });
   redirect("/");
 }
 
-export default function AddCompanyPage() {
+export default async function AddCompanyPage() {
+  const session = await getServerSession(authOptions);
+  if (!session){
+    redirect("/api/auth/signin?callbackUrl=/add-company")
+  }
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-3xl">Add Company</h1>

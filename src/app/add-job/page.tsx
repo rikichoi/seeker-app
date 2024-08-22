@@ -1,9 +1,17 @@
 import prisma from "@/lib/db/prisma";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import CompanyListingItem from "@/components/CompanyListingItem";
 
 async function createJob(formData: FormData) {
   "use server";
+
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/add-job");
+  }
   const title = formData.get("title")?.toString();
   const description = formData.get("description")?.toString();
   const location = formData.get("location")?.toString();
@@ -19,6 +27,8 @@ async function createJob(formData: FormData) {
   const highlights1 = formData.get("highlights1")?.toString() ?? "";
   const highlights2 = formData.get("highlights2")?.toString() ?? "";
   const highlights3 = formData.get("highlights3")?.toString() ?? "";
+  const userId = session.user.id;
+  const companyId = formData.get("companyId")?.toString();
 
   if (
     !title ||
@@ -30,7 +40,8 @@ async function createJob(formData: FormData) {
     !applicationMethod ||
     !employmentType ||
     !expiryDate ||
-    !industry
+    !industry||
+    !companyId
   ) {
     throw new Error("All fields are required");
   }
@@ -48,13 +59,24 @@ async function createJob(formData: FormData) {
       expiryDate: expiryDate,
       industry: industry,
       highlights: [highlights1, highlights2, highlights3],
-      companyId: "66c35a6012bb27190a61fb3a",
+      companyId: companyId,
+      userId: userId,
     },
   });
   redirect("/");
 }
 
-export default function AddJobPage() {
+export default async function AddJobPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/add-job");
+  }
+
+  const companies = await prisma.company.findMany({
+    where: { userId: session?.user.id },
+  });
+
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-3xl font-bold text-center">Add Job</h1>
@@ -69,12 +91,6 @@ export default function AddJobPage() {
           required
           name="description"
           placeholder="Description"
-          className="input input-bordered w-full "
-        />
-        <input
-          required
-          name="company"
-          placeholder="Company"
           className="input input-bordered w-full "
         />
         <input
@@ -122,7 +138,7 @@ export default function AddJobPage() {
           placeholder="Expiry Date"
           className="input input-bordered w-full "
         />
-                <input
+        <input
           required
           name="industry"
           placeholder="Industry"
@@ -150,6 +166,17 @@ export default function AddJobPage() {
           placeholder="Highlights"
           className="input input-bordered w-full "
         />
+
+        <select
+          name="companyId"
+          className="select select-bordered w-full max-w-xs"
+        >
+          {companies.map((company) => (
+            <option key={company.id} value={company.id}>
+              {company.companyName}
+            </option>
+          ))}
+        </select>
 
         <button className="btn btn-primary">Add Job</button>
       </form>

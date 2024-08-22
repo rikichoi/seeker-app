@@ -2,7 +2,7 @@
 import React from "react";
 import { Session } from "next-auth";
 import Image from "next/image";
-import ProfilePicturePlaceholder from "../../assets/profile-pic-placeholder.png";
+import UserPic from "@/assets/profile-pic-placeholder.png";
 import { signIn, signOut } from "next-auth/react";
 
 type UserProfileButtonProps = {
@@ -26,13 +26,16 @@ export default function UserProfileButton({ session }: UserProfileButtonProps) {
                 className=""
                 height={40}
                 width={40}
-                src={user.image || ProfilePicturePlaceholder}
+                src={user.image || UserPic}
                 alt="User Image"
               />
             ) : (
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              <Image
+                className=""
+                height={40}
+                width={40}
+                src={UserPic}
+                alt="User Image"
               />
             )}
           </div>
