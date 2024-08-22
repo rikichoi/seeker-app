@@ -2,14 +2,15 @@
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { getJobById } from "@/lib/db/job";
+import { getJobById, JobWithCompany } from "@/lib/db/job";
 import getJobInfo from "./actions";
 import { Job } from "@prisma/client";
+import Image from "next/image";
 
 export default function JobInfoViewContent() {
   const searchParams = useSearchParams();
   const jobId = searchParams.get("jobId");
-  const [jobInfo, setJobInfo] = useState<Job | null>(null);
+  const [jobInfo, setJobInfo] = useState<JobWithCompany | null>(null);
 
   useEffect(() => {
     if (!jobId) return;
@@ -31,19 +32,29 @@ export default function JobInfoViewContent() {
   }
 
   return (
-    <div className="p-12 flex flex-col flex-wrap gap-5">
-      <div className="flex flex-col items-center gap-3">
-        <h1 className="text-3xl">{jobInfo?.title}</h1>
-        <p>{jobInfo?.applicationMethod}</p>
-        <p>{jobInfo?.employmentType}</p>
-        <p>{jobInfo?.location}</p>
-        <p>{jobInfo?.minSalary}</p>
-        <p>{jobInfo?.maxSalary}</p>
-        <p>{jobInfo?.expiryDate.toLocaleDateString()}</p>
-        <p>{jobInfo?.industry}</p>
-        <p>{jobInfo?.highlights}</p>
+    <div className="flex flex-col flex-wrap gap-5">
+      <div className="flex flex-col items-center gap-3 ">
+        <div className="object-cover">
+          <Image
+            className="object-cover max-h-52 items-center object-center rounded-t-lg"
+            alt="Company Image"
+            width={800}
+            height={400}
+            src={jobInfo?.company.companyImage || ""}
+          ></Image>
+        </div>
+        <div className="p-12 ">
+          <h1 className="text-3xl">{jobInfo?.title}</h1>
+          <p>{jobInfo?.applicationMethod}</p>
+          <p>{jobInfo?.employmentType}</p>
+          <p>{jobInfo?.location}</p>
+          <p>{jobInfo?.minSalary}</p>
+          <p>{jobInfo?.maxSalary}</p>
+          <p>{jobInfo?.expiryDate.toLocaleDateString()}</p>
+          <p>{jobInfo?.industry}</p>
+          <p>{jobInfo?.highlights}</p>
+        </div>
       </div>
-      <h2 className="text-gray-600"></h2>
     </div>
   );
 }
