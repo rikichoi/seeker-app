@@ -27,6 +27,10 @@ export async function create(data: string) {
   }
 }
 
-export async function remove(data: string) {
+export async function remove() {
   cookies().delete('savedJobs');
+}
+
+export async function removeSearchHistory() {
+  cookies().delete('pastSearches');
 }

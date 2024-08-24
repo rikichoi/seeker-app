@@ -9,22 +9,32 @@ import HomeCompanyListingItem from "@/components/HomeCompanyListingItem";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import FilterSection from "@/components/FilterSection";
+import { remove, removeSearchHistory } from "@/components/actions";
 
-export default async function Home() {
+type HomeProps = {
+  searchParams:{
+    keywords: string;
+    classification: string;
+    location: string;
+  };
+  }
+
+export default async function Home({searchParams:{classification,keywords,location}}: HomeProps) {
   const jobs = await getJobs();
   const companies = await prisma.company.findMany();
   const cookieStore = cookies();
   const hasCookie = cookieStore.has("savedJobs");
-  const hasSearchesCookie = cookieStore.has("pastSearches");
+  const hasSearchesCookie = cookieStore.has("pastSearches") || false;
   const pastSearchesCookies =
     hasSearchesCookie && cookieStore.get("pastSearches");
+  const pastSearchesArray =
+    pastSearchesCookies &&
+    pastSearchesCookies.value.replace(/\[|\]/g, "").split(",");
   const savedJobsCookies = hasCookie && cookieStore.get("savedJobs");
-  let savedJobsArray = savedJobsCookies
+  const savedJobsArray = savedJobsCookies
     ? savedJobsCookies.value.replace(/\[|\]/g, "").split(",")
     : [];
-  let newQueryLength = savedJobsArray?.length ?? 0;
-  let newQuery = [];
-  const newLength = newQueryLength;
+  const newQuery = [];
   for (let i = 0; i < savedJobsArray.length; i++) {
     newQuery.push({ id: savedJobsArray[i].replace(/"/g, "") });
   }
@@ -37,11 +47,10 @@ export default async function Home() {
       },
       include: { company: true },
     }));
-  const newSearchParams = "";
 
   return (
     <main className="flex flex-col gap-12 min-h-screen ">
-      <FilterSection />
+      <FilterSection classification={classification} keywords={keywords} location={location}/>
       <div className="max-w-7xl mx-auto w-full min-w-[300px]">
         <div className="flex flex-col mx-4 gap-8 lg:gap-0 lg:mx-0 lg:flex-row justify-between ">
           <div className="min-w-80">
@@ -64,12 +73,25 @@ export default async function Home() {
                 ))}
             </div>
           </div>
-          <div className="min-w-80">
-            <h1 className="text-3xl pb-3 ">Past searches</h1>
-            <p className="text-lg">
-              {JSON.stringify(pastSearchesCookies && pastSearchesCookies.value)}
-            </p>
-            <div className="flex flex-col gap-8"></div>
+          <div className="min-w-80 max-w-80">
+            <form
+              action={removeSearchHistory}
+              className="flex justify-between flex-row"
+            >
+              <h1 className="text-3xl pb-3 ">Past searches</h1>
+              <button className="btn btn-primary text-sm">Clear</button>
+            </form>
+
+            <div className="flex flex-wrap gap-1">
+              {hasSearchesCookie == true &&
+                pastSearchesArray &&
+                pastSearchesArray.length > 0 &&
+                pastSearchesArray.filter(search => search != "").map((search, index) => (
+                  <div key={index} className="badge badge-neutral">
+                    {search.replace(/"/g, "")}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>

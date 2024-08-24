@@ -1,6 +1,7 @@
 import FilterSection from "@/components/FilterSection";
 import JobInfoViewContainer from "@/components/JobInfoViewContainer";
 import JobListingItem from "@/components/JobListingItem";
+import PaginationBar from "@/components/PaginationBar";
 import prisma from "@/lib/db/prisma";
 import { Prisma } from "@prisma/client";
 
@@ -17,20 +18,12 @@ export default async function ListingsPage({
 }: ListingsPageProps) {
   const orConditions = [];
   if (keywords) {
-    orConditions.push(
-      {
-        title: {
-          contains: keywords,
-          mode: Prisma.QueryMode.insensitive,
-        },
+    orConditions.push({
+      title: {
+        contains: keywords,
+        mode: Prisma.QueryMode.insensitive,
       },
-      {
-        employmentType: {
-          contains: keywords,
-          mode: Prisma.QueryMode.insensitive,
-        },
-      }
-    );
+    });
   }
 
   if (classification) {
@@ -59,10 +52,16 @@ export default async function ListingsPage({
         })
       : await prisma.job.findMany({ include: { company: true } });
 
+  // TODO: Add pagination for jobs and companies
+
   return (
     <main className="">
-      <FilterSection />
-      <div className="p-4 max-w-7xl mx-auto flex flex-col gap-12 lg:flex-row min-h-screen justify-between px-24">
+      <FilterSection
+        classification={classification}
+        keywords={keywords}
+        location={location}
+      />
+      <div className="p-4 max-w-7xl mx-auto flex flex-col gap-12 lg:flex-row min-h-screen justify-between lg:px-24">
         <div className="flex flex-col gap-8 flex-1">
           {jobs.length === 0 && (
             <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
@@ -75,6 +74,15 @@ export default async function ListingsPage({
         </div>
 
         <JobInfoViewContainer />
+      </div>
+      <div className="max-w-7xl w-full mx-auto flex justify-center">
+        <PaginationBar
+          currentPage={3}
+          totalPages={99}
+          classification={classification}
+          keywords={keywords}
+          location={location}
+        />
       </div>
     </main>
   );

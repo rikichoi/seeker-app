@@ -56,22 +56,17 @@ export default async function Navbar() {
           </Link>
           <div className="navbar-center  hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
-
-                <>
-                  <li>
-                    <Link href={"/listings"}>View Jobs</Link>
-                  </li>
-                  <li>
-                    <Link href={"/add-job"}>Add Job</Link>
-                  </li>
-                  <li>
-                    <Link href={"/add-company"}>Add Company</Link>
-                  </li>
-                </>
-
-
+              <li>
+                <Link href={"/listings"}>Search Jobs</Link>
+              </li>
               <li>
                 <Link href={"/company"}>View Companies</Link>
+              </li>
+              <li>
+                <Link href={"/add-job"}>Add Job</Link>
+              </li>
+              <li>
+                <Link href={"/add-company"}>Add Company</Link>
               </li>
             </ul>
           </div>

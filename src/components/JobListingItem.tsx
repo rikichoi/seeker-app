@@ -10,22 +10,24 @@ type JobListingItemProps = {
 };
 
 export default function JobListingItem({ job }: JobListingItemProps) {
-
-
   return (
-    <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
+    <div className="card bg-base-100 w-full lg:w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
       <Link scroll={false} href={"/listings?jobId=" + job.id}>
         <figure>
           <Image
             src={job.company.companyImage}
-            className="rounded-t-md"
+            className="rounded-t-md object-cover max-h-[384px]"
             alt="Shoes"
-            width={384}
-            height={384}
+            width={1000}
+            height={1000}
           />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">{job.title}</h2>
+          <div className="flex flex-row justify-between">
+            <h2 className="card-title">{job.title}</h2>
+            <Link className="btn btn-primary" href={"/job/" + job.id}>View job</Link>
+          </div>
+
           <div className="badge badge-secondary">{job.location}</div>
           <h2 className="card-title">{job.company.companyName}</h2>
           <p>{job.location}</p>
