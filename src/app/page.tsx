@@ -15,6 +15,9 @@ export default async function Home() {
   const companies = await prisma.company.findMany();
   const cookieStore = cookies();
   const hasCookie = cookieStore.has("savedJobs");
+  const hasSearchesCookie = cookieStore.has("pastSearches");
+  const pastSearchesCookies =
+    hasSearchesCookie && cookieStore.get("pastSearches");
   const savedJobsCookies = hasCookie && cookieStore.get("savedJobs");
   let savedJobsArray = savedJobsCookies
     ? savedJobsCookies.value.replace(/\[|\]/g, "").split(",")
@@ -63,6 +66,9 @@ export default async function Home() {
           </div>
           <div className="min-w-80">
             <h1 className="text-3xl pb-3 ">Past searches</h1>
+            <p className="text-lg">
+              {JSON.stringify(pastSearchesCookies && pastSearchesCookies.value)}
+            </p>
             <div className="flex flex-col gap-8"></div>
           </div>
         </div>

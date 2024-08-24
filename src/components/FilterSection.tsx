@@ -1,45 +1,36 @@
 import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import React from "react";
+import { cookies } from "next/headers";
 
 async function filterJobs(formData: FormData) {
   "use server";
-  const keywords = formData.get("keywords") as string;
-  const classification = formData.get("classification") as string;
-  const location = formData.get("location") as string;
+  const keywords = formData.get("keywords")?.toString();
+  const classification = formData.get("classification")?.toString();
+  const location = formData.get("location")?.toString();
 
-//   const jobs = await prisma.job.findMany({
-//     where: {
-//       OR: [
-//         {
-//           title: {
-//             contains: keywords,
-//             mode: "insensitive",
-//           },
-//         },
-//         {
-//           employmentType: {
-//             contains: keywords,
-//             mode: "insensitive",
-//           },
-//         },
-//         {
-//           industry: {
-//             contains: classification,
-//             mode: "insensitive",
-//           },
-//         },
-//         {
-//           location: {
-//             contains: location,
-//             mode: "insensitive",
-//           },
-//         },
-//       ],
-//     },
-//   });
-redirect(`/listings?${keywords && "&keywords=" + keywords}${classification && "&classification=" + classification}${location && "&location=" + location}`);
+    const cookieStore = cookies();
+    const hasCookie = cookieStore.has("pastSearches");
+    const pastSearchesCookies = hasCookie && cookieStore.get("pastSearches");
+  
+    if (!hasCookie || !pastSearchesCookies) {
+      cookieStore.set('pastSearches', JSON.stringify([keywords]));
+      redirect(`/listings?${keywords && "&keywords=" + keywords}${classification && "&classification=" + classification}${location && "&location=" + location}`);
+
+    } else {
+      let pastSearchesArray = JSON.parse(pastSearchesCookies.value);
+  
+      if (pastSearchesArray.includes(keywords)) {
+        redirect(`/listings?${keywords && "&keywords=" + keywords}${classification && "&classification=" + classification}${location && "&location=" + location}`);
+      } else {
+        pastSearchesArray.push(keywords);
+        cookieStore.set('pastSearches', JSON.stringify(pastSearchesArray));
+        redirect(`/listings?${keywords && "&keywords=" + keywords}${classification && "&classification=" + classification}${location && "&location=" + location}`);
+      }
+    }
 }
+
+
 
 export default function FilterSection() {
   return (

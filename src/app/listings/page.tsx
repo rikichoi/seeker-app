@@ -2,6 +2,7 @@ import FilterSection from "@/components/FilterSection";
 import JobInfoViewContainer from "@/components/JobInfoViewContainer";
 import JobListingItem from "@/components/JobListingItem";
 import prisma from "@/lib/db/prisma";
+import { Prisma } from "@prisma/client";
 
 type ListingsPageProps = {
   searchParams: {
@@ -20,13 +21,13 @@ export default async function ListingsPage({
       {
         title: {
           contains: keywords,
-          mode: "insensitive",
+          mode: Prisma.QueryMode.insensitive,
         },
       },
       {
         employmentType: {
           contains: keywords,
-          mode: "insensitive",
+          mode: Prisma.QueryMode.insensitive,
         },
       }
     );
@@ -36,7 +37,7 @@ export default async function ListingsPage({
     orConditions.push({
       industry: {
         contains: classification,
-        mode: "insensitive",
+        mode: Prisma.QueryMode.insensitive,
       },
     });
   }
@@ -45,15 +46,18 @@ export default async function ListingsPage({
     orConditions.push({
       location: {
         contains: location,
-        mode: "insensitive",
+        mode: Prisma.QueryMode.insensitive,
       },
     });
   }
 
-  const jobs = await prisma.job.findMany({
-    ...(orConditions.length > 0 && { where: { OR: orConditions } }),
-    include: { company: true },
-  });
+  const jobs =
+    orConditions.length > 0
+      ? await prisma.job.findMany({
+          where: { OR: orConditions },
+          include: { company: true },
+        })
+      : await prisma.job.findMany({ include: { company: true } });
 
   return (
     <main className="">
