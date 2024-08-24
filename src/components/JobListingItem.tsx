@@ -10,9 +10,11 @@ type JobListingItemProps = {
 };
 
 export default function JobListingItem({ job }: JobListingItemProps) {
+
+
   return (
     <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
-      <Link href={"/listings?jobId=" + job.id}>
+      <Link scroll={false} href={"/listings?jobId=" + job.id}>
         <figure>
           <Image
             src={job.company.companyImage}

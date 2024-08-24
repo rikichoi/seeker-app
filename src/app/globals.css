@@ -2,3 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer utilities  {
+    .carousel {
+        display: inline-flex;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -ms-overflow-style: auto;
+        scrollbar-width: auto;
+    }
+    .carousel::-webkit-scrollbar {
+        display: block;
+    }
+
+  }

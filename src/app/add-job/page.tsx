@@ -40,29 +40,32 @@ async function createJob(formData: FormData) {
     !applicationMethod ||
     !employmentType ||
     !expiryDate ||
-    !industry||
+    !industry ||
     !companyId
   ) {
     throw new Error("All fields are required");
   }
+  //create a for loop that will loop 50 times and insert the prisma function from below inside of it
+  for (let i = 0; i < 20; i++) {
+    await prisma.job.create({
+      data: {
+        title: title,
+        description: description,
+        location: location,
+        applyLink: applyLink,
+        minSalary: minSalary,
+        maxSalary: maxSalary,
+        applicationMethod: applicationMethod,
+        employmentType: employmentType,
+        expiryDate: expiryDate,
+        industry: industry,
+        highlights: [highlights1, highlights2, highlights3],
+        companyId: companyId,
+        userId: userId,
+      },
+    });
+  }
 
-  await prisma.job.create({
-    data: {
-      title: title,
-      description: description,
-      location: location,
-      applyLink: applyLink,
-      minSalary: minSalary,
-      maxSalary: maxSalary,
-      applicationMethod: applicationMethod,
-      employmentType: employmentType,
-      expiryDate: expiryDate,
-      industry: industry,
-      highlights: [highlights1, highlights2, highlights3],
-      companyId: companyId,
-      userId: userId,
-    },
-  });
   redirect("/");
 }
 
@@ -76,6 +79,10 @@ export default async function AddJobPage() {
   const companies = await prisma.company.findMany({
     where: { userId: session?.user.id },
   });
+
+  if (companies.length <= 0) {
+    redirect("/add-company?callbackUrl=/add-job");
+  }
 
   return (
     <div className="flex flex-col gap-3">

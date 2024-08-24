@@ -3,9 +3,12 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { getJobById, JobWithCompany } from "@/lib/db/job";
-import getJobInfo from "./actions";
+import { getJobInfo } from "./actions";
 import { Job } from "@prisma/client";
 import Image from "next/image";
+import { create } from "./actions";
+import AddJobToCookieButton from "./AddJobToCookieButton";
+import RemoveJobFromCookieButton from "./RemoveJobFromCookieButton";
 
 export default function JobInfoViewContent() {
   const searchParams = useSearchParams();
@@ -43,8 +46,13 @@ export default function JobInfoViewContent() {
             src={jobInfo?.company.companyImage || ""}
           ></Image>
         </div>
-        <div className="p-12 ">
+        <div className="px-12 pb-12">
+          <div className="flex flex-row gap-5 pb-5 justify-end">
+            <AddJobToCookieButton data={jobInfo?.id ?? ""} />
+            <RemoveJobFromCookieButton data={jobInfo?.id ?? ""} />
+          </div>
           <h1 className="text-3xl">{jobInfo?.title}</h1>
+
           <p>{jobInfo?.applicationMethod}</p>
           <p>{jobInfo?.employmentType}</p>
           <p>{jobInfo?.location}</p>

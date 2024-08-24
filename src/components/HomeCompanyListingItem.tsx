@@ -11,12 +11,12 @@ export default function HomeCompanyListingItem({
   company,
 }: HomeCompanyListingItemProps) {
   return (
-    <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-xl hover:border-cyan-950">
+    <div className="card carousel-item bg-base-100 min-w-80  shadow-xl border-2 rounded-xl hover:border-cyan-950">
       <Link href={"/company/" + company.id}>
         <figure>
           <Image
             src={company.companyImage}
-            className="rounded-t-lg max-h-44 object-cover"
+            className="rounded-t-lg max-h-44 w-full object-cover"
             alt="Shoes"
             width={384}
             height={384}

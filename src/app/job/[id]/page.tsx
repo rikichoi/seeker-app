@@ -1,5 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { JobWithCompany } from "@/lib/db/job";
 import prisma from "@/lib/db/prisma";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -19,6 +21,7 @@ async function getJobInfo(id: string) {
 }
 
 export default async function JobInfoPage({ params: { id } }: GetJobInfoProps) {
+  const session = await getServerSession(authOptions);
   const job = await prisma.job.findUnique({
     where: { id: id },
     include: { company: true },
@@ -28,9 +31,12 @@ export default async function JobInfoPage({ params: { id } }: GetJobInfoProps) {
   }
   return (
     <div>
-      <Link href={"/edit-job/" + job.id} className="btn btn-primary">
-        Edit Job
-      </Link>
+      {session?.user.id === job.company.userId && (
+        <Link href={"/edit-job/" + job.id} className="btn btn-primary">
+          Edit Job
+        </Link>
+      )}
+
       <p>{job.title}</p>
       <p>{job.description}</p>
       <p>{job.location}</p>

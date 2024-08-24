@@ -11,7 +11,7 @@ type HomeJobListingItemProps = {
 
 export default function HomeJobListingItem({ job }: HomeJobListingItemProps) {
   return (
-    <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
+    <div className="card bg-base-100 min-w-80  shadow-xl border-2 rounded-lg hover:border-cyan-950">
       <Link href={"/job/" + job.id}>
         <div className="card-body">
           <h2 className="card-title">{job.title}</h2>
