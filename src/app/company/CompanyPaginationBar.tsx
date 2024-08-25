@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-type PaginatorBarProps = {
+type CompanyPaginatorBarProps = {
   keywords: string;
   classification?: string;
   location?: string;
@@ -10,20 +10,20 @@ type PaginatorBarProps = {
   totalPages: number;
 };
 
-export default function PaginationBar({
+export default function CompanyPaginationBar({
   keywords,
   classification,
   location,
   currentPage,
   totalPages,
-}: PaginatorBarProps) {
+}: CompanyPaginatorBarProps) {
   const maxPage = Math.min(totalPages, Math.max(currentPage + 4, 10));
   const minPage = Math.max(1, Math.min(currentPage - 4, totalPages - 9));
   const numberedPageItems: JSX.Element[] = [];
   for (let page = minPage; page <= maxPage; page++) {
     numberedPageItems.push(
       <Link
-        href={`/listings?${
+        href={`/company?${
           keywords != undefined ? `&keywords=${keywords}` : ""
         }${
           classification != undefined ? `&classification=${classification}` : ""
@@ -42,10 +42,10 @@ export default function PaginationBar({
   }
   return (
     <>
-      <div className="join btn-primary hidden sm:block">{numberedPageItems}</div>
-      <div className="join btn-primary block sm:hidden">
+      <div className="join hidden btn-primary sm:block">{numberedPageItems}</div>
+      <div className="join block btn-primary sm:hidden">
         {currentPage > 1 && (
-          <Link href={`/listings?${
+          <Link href={`/company?${
             keywords != undefined ? `&keywords=${keywords}` : ""
           }${
             classification != undefined
@@ -62,7 +62,7 @@ export default function PaginationBar({
         </button>
         {currentPage < totalPages && (
           <Link
-            href={`/listings?${
+            href={`/company?${
               keywords != undefined ? `&keywords=${keywords}` : ""
             }${
               classification != undefined

@@ -20,7 +20,11 @@ async function filterJobs(formData: FormData) {
   const pastSearchesCookies = hasCookie && cookieStore.get("pastSearches");
 
   if (keywords === "") {
-    return;
+    redirect(
+      `/listings?${keywords && "&keywords=" + keywords}${
+        classification && "&classification=" + classification
+      }${location && "&location=" + location}`
+    );
   }
 
   if (!hasCookie || !pastSearchesCookies) {

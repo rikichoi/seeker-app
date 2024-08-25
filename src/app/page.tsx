@@ -89,6 +89,11 @@ export default async function Home({
             </form>
 
             <div className="flex flex-wrap gap-1">
+              {hasSearchesCookie == false ||
+              (pastSearchesArray &&
+                pastSearchesArray.filter((search) => search != "").length < 1)
+                ? "No past searches"
+                : ""}
               {hasSearchesCookie == true &&
                 pastSearchesArray &&
                 pastSearchesArray.length > 0 &&
@@ -98,7 +103,7 @@ export default async function Home({
                     <Link
                       href={"/listings?&keywords=" + search.replace(/"/g, "")}
                       key={index}
-                      className="badge badge-neutral hover:badge-secondary"
+                      className="badge badge-neutral p-5 hover:badge-secondary"
                     >
                       {search.replace(/"/g, "")}
                     </Link>
