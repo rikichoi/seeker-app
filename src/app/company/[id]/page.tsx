@@ -39,7 +39,7 @@ export default async function CompanyPage({
       />
       <div className="flex flex-row gap-4 items-end">
         <h1 className="text-3xl font-semibold">{company.companyName}</h1>
-        <Link href={company.website} className="underline hover:text-blue-500">
+        <Link href={`https://${company.website}`} target="_blank" className="underline hover:text-blue-500">
           View company website
         </Link>
       </div>

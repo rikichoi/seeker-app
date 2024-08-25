@@ -1,6 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { create } from "@/components/actions";
 import AddJobToCookieButton from "@/components/AddJobToCookieButton";
+import RemoveJobFromCookieButton from "@/components/RemoveJobFromCookieButton";
 import { JobWithCompany } from "@/lib/db/job";
 import prisma from "@/lib/db/prisma";
 import { formatPrice, getDaysUntilExpiry, getTimeAgo } from "@/lib/utils";
@@ -68,6 +69,7 @@ export default async function JobInfoPage({ params: { id } }: GetJobInfoProps) {
         </Link>
 
         <AddJobToCookieButton data={job.id} />
+        <RemoveJobFromCookieButton data={job.id} />
       </div>
       <h3 className="text-lg font-medium mb-3">Overview:</h3>
       <p>{job.description}</p>

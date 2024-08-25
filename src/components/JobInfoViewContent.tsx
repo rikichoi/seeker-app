@@ -15,6 +15,7 @@ export default function JobInfoViewContent() {
   const searchParams = useSearchParams();
   const jobId = searchParams.get("jobId");
   const [jobInfo, setJobInfo] = useState<JobWithCompany | null>(null);
+  const [imageValidity, setImageValidity] = useState(false);
 
   useEffect(() => {
     if (!jobId) return;
@@ -22,6 +23,17 @@ export default function JobInfoViewContent() {
       setJobInfo(job);
     });
   }, [jobId]);
+
+  useEffect(() => {
+    if (!jobInfo) return;
+    async function checkImage(url: string) {
+      if (!url || !jobInfo) return;
+      const res = await fetch(url);
+      const buff = await res.blob();
+      setImageValidity(buff.type.startsWith("image/"));
+    }
+    checkImage(jobInfo.company.companyImage);
+  }, [jobInfo?.company.companyImage]);
 
   if (!jobId) {
     return (
@@ -39,7 +51,7 @@ export default function JobInfoViewContent() {
     <div className="flex flex-col flex-wrap gap-5">
       <div className="flex flex-col items-center gap-3 ">
         <div className="object-cover">
-          {jobInfo && (
+          {jobInfo && imageValidity && (
             <Image
               className="object-cover max-h-52 items-center object-center rounded-t-lg"
               alt="Company Image"

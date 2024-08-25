@@ -10,21 +10,31 @@ type JobListingItemProps = {
   page: number;
 };
 
-export default function JobListingItem({ job, page }: JobListingItemProps) {
+export default async function JobListingItem({ job, page }: JobListingItemProps) {
+  async function checkImage(url: string) {
+    const res = await fetch(url);
+    const buff = await res.blob();
+    return buff.type.startsWith("image/");
+  }
+  const imageValidity = await checkImage(job.company.companyImage);
   return (
     <div className="card bg-base-100 w-full lg:w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
       <Link
         scroll={false}
-        href={`/listings?${job && `&jobId=${job.id}`}${page && `&page=${page}`}`}
+        href={`/listings?${job && `&jobId=${job.id}`}${
+          page && `&page=${page}`
+        }`}
       >
         <figure>
-          <Image
-            src={job.company.companyImage}
-            className="rounded-t-md object-cover max-h-[384px]"
-            alt="Company Image"
-            width={1000}
-            height={1000}
-          />
+          {imageValidity && (
+            <Image
+              src={job.company.companyImage}
+              className="rounded-t-md object-cover max-h-[384px]"
+              alt="Company Image"
+              width={1000}
+              height={1000}
+            />
+          )}
         </figure>
         <div className="card-body">
           <h2 className="card-title">{job.title}</h2>
