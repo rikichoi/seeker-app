@@ -7,12 +7,16 @@ import React from "react";
 
 type JobListingItemProps = {
   job: JobWithCompany;
+  page: number;
 };
 
-export default function JobListingItem({ job }: JobListingItemProps) {
+export default function JobListingItem({ job, page }: JobListingItemProps) {
   return (
     <div className="card bg-base-100 w-full lg:w-96 shadow-xl border-2 rounded-lg hover:border-cyan-950">
-      <Link scroll={false} href={"/listings?jobId=" + job.id}>
+      <Link
+        scroll={false}
+        href={`/listings?${job && `&jobId=${job.id}`}${page && `&page=${page}`}`}
+      >
         <figure>
           <Image
             src={job.company.companyImage}

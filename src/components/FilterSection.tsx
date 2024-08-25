@@ -4,11 +4,9 @@ import React from "react";
 import { cookies } from "next/headers";
 
 type FilterSectionProps = {
-  
-    keywords: string;
-    classification: string;
-    location: string;
-
+  keywords: string;
+  classification: string;
+  location: string;
 };
 
 async function filterJobs(formData: FormData) {
@@ -20,6 +18,10 @@ async function filterJobs(formData: FormData) {
   const cookieStore = cookies();
   const hasCookie = cookieStore.has("pastSearches");
   const pastSearchesCookies = hasCookie && cookieStore.get("pastSearches");
+
+  if (keywords === "") {
+    return;
+  }
 
   if (!hasCookie || !pastSearchesCookies) {
     cookieStore.set("pastSearches", JSON.stringify([keywords]));
@@ -49,7 +51,11 @@ async function filterJobs(formData: FormData) {
   }
 }
 
-export default function FilterSection({classification,keywords,location}: FilterSectionProps) {
+export default function FilterSection({
+  classification,
+  keywords,
+  location,
+}: FilterSectionProps) {
   return (
     <div className="flex justify-center mx-auto min-w-full  object-contain h-72 lg:h-52  bg-[url('../assets/home-background.jpg')]">
       <form

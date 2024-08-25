@@ -17,11 +17,6 @@ type ListingsPageProps = {
 export default async function ListingsPage({
   searchParams: { classification, keywords, location, page = "1" },
 }: ListingsPageProps) {
-  const currentPage = parseInt(page);
-  const pageSize = 5;
-  const totalItemCount = await prisma.job.count();
-  const totalPages = Math.ceil(totalItemCount / pageSize);
-
   const orConditions = [];
   if (keywords) {
     orConditions.push({
@@ -49,6 +44,14 @@ export default async function ListingsPage({
       },
     });
   }
+
+  const currentPage = parseInt(page);
+  const pageSize = 5;
+  const totalItemCount =
+    orConditions.length > 0
+      ? await prisma.job.count({ where: { OR: orConditions } })
+      : await prisma.job.count();
+  const totalPages = Math.ceil(totalItemCount / pageSize);
 
   const jobs =
     orConditions.length > 0
@@ -126,7 +129,7 @@ export default async function ListingsPage({
             </div>
           )}
           {jobs.map((job) => (
-            <JobListingItem key={job.id} job={job} />
+            <JobListingItem key={job.id} job={job} page={currentPage} />
           ))}
         </div>
 

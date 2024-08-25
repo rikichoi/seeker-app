@@ -9,7 +9,7 @@ type RemoveJobFromCookieButtonProps = {
     data,
   }: RemoveJobFromCookieButtonProps) {
     return (
-      <button onClick={() => remove(data)} className="btn btn-warning ">
+      <button onClick={() => remove()} className="btn btn-warning ">
         Remove job
       </button>
     );
