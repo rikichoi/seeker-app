@@ -61,10 +61,10 @@ export default async function ListingsPage({
         keywords={keywords}
         location={location}
       />
-      <div className="p-4 max-w-7xl mx-auto flex flex-col gap-12 lg:flex-row min-h-screen justify-between lg:px-24">
+      <div className="p-4 max-w-7xl mx-auto flex flex-col gap-12 lg:flex-row justify-between lg:px-24">
         <div className="flex flex-col gap-8 flex-1">
           {jobs.length === 0 && (
-            <div className="card w-96 gap-3 items-center text-center justify-center flex">
+            <div className="card w-full lg:w-96 gap-3 items-center text-center justify-center flex">
               <svg
                 width="108"
                 height="96"
@@ -122,7 +122,7 @@ export default async function ListingsPage({
       </div>
       <div className="max-w-7xl w-full mx-auto flex justify-center">
         <PaginationBar
-          currentPage={3}
+          currentPage={13}
           totalPages={99}
           classification={classification}
           keywords={keywords}
