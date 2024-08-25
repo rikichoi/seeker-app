@@ -30,7 +30,7 @@ export default function EditJobPage({
           required
           name="description"
           placeholder="Description"
-          className="input input-bordered w-full "
+          className="input h-52 input-bordered w-full "
         />
         <input
           required

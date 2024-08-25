@@ -85,7 +85,7 @@ export default async function Home({
               className="flex justify-between flex-row"
             >
               <h1 className="text-3xl pb-3 ">Past searches</h1>
-              <button className="btn btn-primary text-sm">Clear</button>
+              <button className="btn btn-error text-sm">Clear</button>
             </form>
 
             <div className="flex flex-wrap gap-1">

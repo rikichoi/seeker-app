@@ -54,7 +54,7 @@ export default async function AddCompanyPage() {
   return (
     <div className="flex flex-col max-w-3xl p-3 mx-auto gap-3">
       <h1 className="text-3xl font-bold text-center">Add Company</h1>
-      <form className="flex flex-col gap-3" action={createCompany}>
+      <form action={createCompany} className="flex flex-col gap-4" >
         <input
           required
           name="companyName"
@@ -85,7 +85,7 @@ export default async function AddCompanyPage() {
           placeholder="Website"
           className="input input-bordered w-full "
         />
-        <input
+        <textarea
           required
           name="description"
           placeholder="Description"

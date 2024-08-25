@@ -79,11 +79,11 @@ export default function EditCompanyPage({
           defaultValue={defaultValues?.website}
           className="input input-bordered w-full "
         />
-        <input
+        <textarea
           name="description"
           placeholder="Description"
           defaultValue={defaultValues?.description}
-          className="input input-bordered w-full "
+          className="input h-52 input-bordered w-full "
         />
         <input
           name="type"
