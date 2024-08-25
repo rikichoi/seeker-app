@@ -8,7 +8,7 @@ type DeleteCompanyButtonProps = {
 
 export default function DeleteCompanyButton({ id }: DeleteCompanyButtonProps) {
   return (
-    <button className="btn btn-warning" onClick={() => removeCompany(id)}>
+    <button className="btn btn-error" onClick={() => removeCompany(id)}>
       Delete Company
     </button>
   );

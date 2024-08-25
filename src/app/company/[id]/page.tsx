@@ -43,22 +43,22 @@ export default async function CompanyPage({
           View company website
         </Link>
       </div>
-      <h2 className="text-xl font-semibold">Company Overview:</h2>
+      <h2 className="text-xl font-bold">Company Overview:</h2>
       <div className="flex flex-col gap-6">
         <div className="flex flex-row">
-          <h3 className="font-medium min-w-40">Industry</h3>
+          <h3 className="font-semibold min-w-40">Industry</h3>
           <p>{company.industry}</p>
         </div>
         <div className="flex flex-row">
-          <h3 className="font-medium min-w-40">Location</h3>
+          <h3 className="font-semibold min-w-40">Location</h3>
           <p>{company.location}</p>
         </div>
         <div className="flex flex-row">
-          <h3 className="font-medium min-w-40">Type</h3>
+          <h3 className="font-semibold min-w-40">Type</h3>
           <p>{company.type}</p>
         </div>
         <div className="flex flex-row">
-          <h3 className="font-medium min-w-40">Size</h3>
+          <h3 className="font-semibold min-w-40">Size</h3>
           <p>{company.size}</p>
         </div>
 

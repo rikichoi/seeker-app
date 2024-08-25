@@ -14,6 +14,7 @@ export async function editCompany(formData: FormData, id: string) {
   const description = formData.get("description")?.toString();
   const type = formData.get("type")?.toString();
   const companyImage = formData.get("companyImage")?.toString();
+  const companyImageRegex = /^https:\/\/images\.unsplash\.com\//;
 
   if (
     !companyName ||
@@ -26,6 +27,9 @@ export async function editCompany(formData: FormData, id: string) {
     !companyImage
   ) {
     throw new Error("All fields are required");
+  }
+  if (!companyImageRegex.test(companyImage)) {
+    throw new Error("Company Image must be a valid image URL from Unsplash - https://images.unsplash.com/");
   }
   await prisma.company.update({
     where: { id: id },
@@ -55,7 +59,7 @@ export async function getSession() {
   return session;
 }
 
-export async function getCompany(id:string) {
+export async function getCompany(id: string) {
   const company = await prisma.company.findUnique({ where: { id: id } });
   return company;
 }

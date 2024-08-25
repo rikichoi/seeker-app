@@ -4,6 +4,7 @@ import { editCompany, getCompany, getSession } from "./actions";
 import DeleteCompanyButton from "./DeleteCompanyButton";
 import { Company, Session } from "@prisma/client";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 type EditCompanyPageProps = {
   params: { id: string };
@@ -42,7 +43,6 @@ export default function EditCompanyPage({
 
   return (
     <div className="flex flex-col max-w-3xl p-3 mx-auto gap-3">
-
       <h1 className="text-3xl font-bold text-center">Edit Company</h1>
       {sessionState ? <DeleteCompanyButton id={id} /> : ""}
       <form
@@ -91,6 +91,22 @@ export default function EditCompanyPage({
           defaultValue={defaultValues?.type}
           className="input input-bordered w-full "
         />
+        <Link
+          className="underline text-blue-700 hover:text-blue-400"
+          href={"https://unsplash.com/"}
+          target="_blank"
+        >
+          Pick an image from Unsplash - https://unsplash.com/
+        </Link>
+        <p className="text-sm text-red-500">
+          Image must be a valid image URL from Unsplash - With the format
+          https://images.unsplash.com/
+        </p>
+        <p>
+          Click Unsplash hyperlink » Open an image » Right click image » Copy
+          Image Link
+        </p>
+
         <input
           name="companyImage"
           defaultValue={defaultValues?.companyImage}

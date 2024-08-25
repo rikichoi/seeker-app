@@ -8,7 +8,7 @@ type DeleteJobButtonProps = {
 
 export default function DeleteJobButton({ id }: DeleteJobButtonProps) {
   return (
-    <button className="btn btn-warning" onClick={() => removeJob(id)}>
+    <button className="btn btn-error" onClick={() => removeJob(id)}>
       Delete Job
     </button>
   );
