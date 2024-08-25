@@ -73,10 +73,11 @@ export default async function Home({
           <div className="min-w-80">
             <h1 className="text-3xl pb-3">Saved jobs</h1>
             <div className="flex flex-col gap-3">
-              {savedJobs &&
-                savedJobs.map((job) => (
-                  <HomeJobListingItem key={job.id} job={job} />
-                ))}
+              {savedJobs
+                ? savedJobs.map((job) => (
+                    <HomeJobListingItem key={job.id} job={job} />
+                  ))
+                : "No saved jobs"}
             </div>
           </div>
           <div className="min-w-80 max-w-80">
