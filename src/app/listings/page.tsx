@@ -10,12 +10,18 @@ type ListingsPageProps = {
     keywords: string;
     classification: string;
     location: string;
+    page: string;
   };
 };
 
 export default async function ListingsPage({
-  searchParams: { classification, keywords, location },
+  searchParams: { classification, keywords, location, page = "1" },
 }: ListingsPageProps) {
+  const currentPage = parseInt(page);
+  const pageSize = 5;
+  const totalItemCount = await prisma.job.count();
+  const totalPages = Math.ceil(totalItemCount / pageSize);
+
   const orConditions = [];
   if (keywords) {
     orConditions.push({
@@ -49,8 +55,14 @@ export default async function ListingsPage({
       ? await prisma.job.findMany({
           where: { OR: orConditions },
           include: { company: true },
+          skip: (currentPage - 1) * pageSize,
+          take: pageSize,
         })
-      : await prisma.job.findMany({ include: { company: true } });
+      : await prisma.job.findMany({
+          include: { company: true },
+          skip: (currentPage - 1) * pageSize,
+          take: pageSize,
+        });
 
   // TODO: Add pagination for jobs and companies
 
@@ -113,7 +125,7 @@ export default async function ListingsPage({
               <p className="text-sm">Try checking for spelling errors.</p>
             </div>
           )}
-          {jobs.slice(0, 4).map((job) => (
+          {jobs.map((job) => (
             <JobListingItem key={job.id} job={job} />
           ))}
         </div>
@@ -121,13 +133,15 @@ export default async function ListingsPage({
         <JobInfoViewContainer />
       </div>
       <div className="max-w-7xl w-full mx-auto flex justify-center">
-        <PaginationBar
-          currentPage={13}
-          totalPages={99}
-          classification={classification}
-          keywords={keywords}
-          location={location}
-        />
+        {totalPages > 1 && (
+          <PaginationBar
+            currentPage={currentPage}
+            totalPages={totalPages}
+            classification={classification}
+            keywords={keywords}
+            location={location}
+          />
+        )}
       </div>
     </main>
   );

@@ -23,10 +23,7 @@ export default function JobListingItem({ job }: JobListingItemProps) {
           />
         </figure>
         <div className="card-body">
-          <div className="flex flex-row justify-between">
-            <h2 className="card-title">{job.title}</h2>
-            <Link className="btn btn-primary" href={"/job/" + job.id}>View job</Link>
-          </div>
+          <h2 className="card-title">{job.title}</h2>
 
           <div className="badge badge-secondary">{job.location}</div>
           <h2 className="card-title">{job.company.companyName}</h2>

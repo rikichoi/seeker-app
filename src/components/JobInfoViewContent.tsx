@@ -9,6 +9,7 @@ import Image from "next/image";
 import { create } from "./actions";
 import AddJobToCookieButton from "./AddJobToCookieButton";
 import RemoveJobFromCookieButton from "./RemoveJobFromCookieButton";
+import Link from "next/link";
 
 export default function JobInfoViewContent() {
   const searchParams = useSearchParams();
@@ -38,20 +39,28 @@ export default function JobInfoViewContent() {
     <div className="flex flex-col flex-wrap gap-5">
       <div className="flex flex-col items-center gap-3 ">
         <div className="object-cover">
-          <Image
-            className="object-cover max-h-52 items-center object-center rounded-t-lg"
-            alt="Company Image"
-            width={800}
-            height={400}
-            src={jobInfo?.company.companyImage || ""}
-          ></Image>
+          {jobInfo && (
+            <Image
+              className="object-cover max-h-52 items-center object-center rounded-t-lg"
+              alt="Company Image"
+              width={800}
+              height={400}
+              src={jobInfo.company.companyImage}
+            ></Image>
+          )}
         </div>
         <div className="px-12 pb-12">
           <div className="flex flex-row gap-5 pb-5 justify-end">
             <AddJobToCookieButton data={jobInfo?.id ?? ""} />
             <RemoveJobFromCookieButton data={jobInfo?.id ?? ""} />
           </div>
-          <h1 className="text-3xl">{jobInfo?.title}</h1>
+
+          <div className="flex flex-row justify-between">
+            <h1 className="text-3xl">{jobInfo?.title}</h1>
+            <Link href={"/job/" + jobInfo?.id} className="btn btn-accent">
+              View job
+            </Link>
+          </div>
 
           <p>{jobInfo?.applicationMethod}</p>
           <p>{jobInfo?.employmentType}</p>

@@ -59,13 +59,13 @@ export default async function JobInfoPage({ params: { id } }: GetJobInfoProps) {
       <p>Posted {getTimeAgo(job.createdAt)}</p>
       <p>Expires in {getDaysUntilExpiry(job.expiryDate)} days</p>
       <div className="flex flex-row gap-3 my-6">
-        <a
+        <Link
           href={`https://${job.applyLink}`}
           target="_blank"
           className="btn btn-primary"
         >
           Apply for job
-        </a>
+        </Link>
 
         <AddJobToCookieButton data={job.id} />
       </div>
