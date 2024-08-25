@@ -67,8 +67,6 @@ export default async function ListingsPage({
           take: pageSize,
         });
 
-  // TODO: Add pagination for jobs and companies
-
   return (
     <main className="">
       <FilterSection

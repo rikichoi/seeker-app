@@ -20,6 +20,7 @@ async function createCompany(formData: FormData) {
   const userId = session?.user.id;
   const companyImageRegex = /^https:\/\/images\.unsplash\.com\//;
 
+
   if (
     !companyName ||
     !industry ||
