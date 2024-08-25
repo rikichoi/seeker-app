@@ -12,15 +12,15 @@ export default function CompanyListingItem({
   company,
 }: CompanyListingItemProps) {
   return (
-    <div className="card bg-base-100 w-96 shadow-xl border-2 rounded-xl hover:border-cyan-950">
+    <div className="card bg-base-100 w-full max-w-2xl shadow-xl border-2 rounded-lg hover:border-cyan-950">
       <Link href={"/company/" + company.id}>
         <figure>
           <Image
             src={company.companyImage}
-            className="rounded-t-lg"
+            className="rounded-t-md object-cover max-h-[384px]"
             alt="Shoes"
-            width={384}
-            height={384}
+            width={1000}
+            height={1000}
           />
         </figure>
         <div className="card-body">

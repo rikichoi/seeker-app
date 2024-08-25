@@ -12,14 +12,16 @@ import FilterSection from "@/components/FilterSection";
 import { remove, removeSearchHistory } from "@/components/actions";
 
 type HomeProps = {
-  searchParams:{
+  searchParams: {
     keywords: string;
     classification: string;
     location: string;
   };
-  }
+};
 
-export default async function Home({searchParams:{classification,keywords,location}}: HomeProps) {
+export default async function Home({
+  searchParams: { classification, keywords, location },
+}: HomeProps) {
   const jobs = await getJobs();
   const companies = await prisma.company.findMany();
   const cookieStore = cookies();
@@ -50,7 +52,11 @@ export default async function Home({searchParams:{classification,keywords,locati
 
   return (
     <main className="flex flex-col gap-12 min-h-screen ">
-      <FilterSection classification={classification} keywords={keywords} location={location}/>
+      <FilterSection
+        classification={classification}
+        keywords={keywords}
+        location={location}
+      />
       <div className="max-w-7xl mx-auto w-full min-w-[300px]">
         <div className="flex flex-col mx-4 gap-8 lg:gap-0 lg:mx-0 lg:flex-row justify-between ">
           <div className="min-w-80">
@@ -86,11 +92,17 @@ export default async function Home({searchParams:{classification,keywords,locati
               {hasSearchesCookie == true &&
                 pastSearchesArray &&
                 pastSearchesArray.length > 0 &&
-                pastSearchesArray.filter(search => search != "").map((search, index) => (
-                  <div key={index} className="badge badge-neutral">
-                    {search.replace(/"/g, "")}
-                  </div>
-                ))}
+                pastSearchesArray
+                  .filter((search) => search != "")
+                  .map((search, index) => (
+                    <Link
+                      href={"/listings?&keywords=" + search.replace(/"/g, "")}
+                      key={index}
+                      className="badge badge-neutral hover:badge-secondary"
+                    >
+                      {search.replace(/"/g, "")}
+                    </Link>
+                  ))}
             </div>
           </div>
         </div>

@@ -1,6 +1,9 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { create } from "@/components/actions";
+import AddJobToCookieButton from "@/components/AddJobToCookieButton";
 import { JobWithCompany } from "@/lib/db/job";
 import prisma from "@/lib/db/prisma";
+import { formatPrice, getDaysUntilExpiry, getTimeAgo } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -30,30 +33,55 @@ export default async function JobInfoPage({ params: { id } }: GetJobInfoProps) {
     notFound();
   }
   return (
-    <div>
+    <div className="max-w-3xl mx-auto py-5">
       {session?.user.id === job.company.userId && (
-        <Link href={"/edit-job/" + job.id} className="btn btn-primary">
-          Edit Job
+        <Link href={"/edit-job/" + job.id} className="btn btn-success mb-5">
+          Edit job
         </Link>
       )}
+      <h1 className="text-3xl font-semibold">{job.title}</h1>
+      <div className="flex flex-row gap-3 items-center mb-3">
+        <h2 className="text-lg">{job.company.companyName}</h2>
+        <Link
+          href={"/company/" + job.companyId}
+          className="underline hover:text-blue-500"
+        >
+          View company
+        </Link>
+      </div>
 
-      <p>{job.title}</p>
-      <p>{job.description}</p>
       <p>{job.location}</p>
-      <p>{job.applyLink}</p>
-      <p>{job.minSalary}</p>
-      <p>{job.maxSalary}</p>
-      <p>{job.applicationMethod}</p>
-      <p>{job.employmentType}</p>
-      <p>{job.expiryDate.toLocaleDateString()}</p>
       <p>{job.industry}</p>
-      <p>{job.highlights}</p>
-      <p>{job.company.companyName}</p>
-      <p>{job.company.industry}</p>
-      <p>{job.company.size}</p>
-      <p>{job.company.location}</p>
-      <p>{job.company.website}</p>
-      <p>{job.company.description}</p>
+      <p>{job.employmentType}</p>
+      <p>
+        {formatPrice(job.minSalary)} - {formatPrice(job.maxSalary)} per year
+      </p>
+      <p>Posted {getTimeAgo(job.createdAt)}</p>
+      <p>Expires in {getDaysUntilExpiry(job.expiryDate)} days</p>
+      <div className="flex flex-row gap-3 my-6">
+        <a
+          href={`https://${job.applyLink}`}
+          target="_blank"
+          className="btn btn-primary"
+        >
+          Apply for job
+        </a>
+
+        <AddJobToCookieButton data={job.id} />
+      </div>
+      <h3 className="text-lg font-medium mb-3">Overview:</h3>
+      <p>{job.description}</p>
+
+      
+      <ul className="list-disc pl-5">
+        {job.highlights
+          .filter((highlight) => highlight !== "")
+          .map((highlight, index) => (
+            <li className="" key={index}>
+              {highlight}
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }
