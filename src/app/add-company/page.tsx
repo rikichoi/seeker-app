@@ -2,7 +2,7 @@ import prisma from "@/lib/db/prisma";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import Link from "next/link";
 
 async function createCompany(formData: FormData) {
@@ -20,7 +20,6 @@ async function createCompany(formData: FormData) {
   const userId = session?.user.id;
   const companyImageRegex = /^https:\/\/images\.unsplash\.com\//;
 
-
   if (
     !companyName ||
     !industry ||
@@ -34,21 +33,23 @@ async function createCompany(formData: FormData) {
     throw new Error("All fields are required");
   }
   if (!companyImageRegex.test(companyImage)) {
-    throw new Error("Company Image must be a valid image URL from Unsplash - https://images.unsplash.com/");
+    throw new Error(
+      "Company Image must be a valid image URL from Unsplash - https://images.unsplash.com/"
+    );
   }
-    await prisma.company.create({
-      data: {
-        companyName: companyName,
-        industry: industry,
-        size: size,
-        location: location,
-        website: website,
-        description: description,
-        type: type,
-        companyImage: companyImage,
-        userId: userId,
-      },
-    });
+  await prisma.company.create({
+    data: {
+      companyName: companyName,
+      industry: industry,
+      size: size,
+      location: location,
+      website: website,
+      description: description,
+      type: type,
+      companyImage: companyImage,
+      userId: userId,
+    },
+  });
   redirect("/");
 }
 
@@ -103,9 +104,21 @@ export default async function AddCompanyPage() {
           placeholder="Type"
           className="input input-bordered w-full "
         />
-        <Link className="underline text-blue-700 hover:text-blue-400" href={"https://unsplash.com/"} target="_blank">Pick an image from Unsplash - https://unsplash.com/</Link>
-        <p className="text-sm text-red-500">Image must be a valid image URL from Unsplash - With the format https://images.unsplash.com/</p>
-        <p>Click Unsplash hyperlink » Open an image » Right click image » Copy Image Link</p>
+        <Link
+          className="underline text-blue-700 hover:text-blue-400"
+          href={"https://unsplash.com/"}
+          target="_blank"
+        >
+          Pick an image from Unsplash - https://unsplash.com/
+        </Link>
+        <p className="text-sm text-red-500">
+          Image must be a valid image URL from Unsplash - With the format
+          https://images.unsplash.com/
+        </p>
+        <p>
+          Click Unsplash hyperlink » Open an image » Right click image » Copy
+          Image Link
+        </p>
         <input
           name="companyImage"
           placeholder="Company Image - https://images.unsplash.com/"

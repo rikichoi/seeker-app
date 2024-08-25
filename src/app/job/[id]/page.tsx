@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { create } from "@/components/actions";
 import AddJobToCookieButton from "@/components/AddJobToCookieButton";
 import RemoveJobFromCookieButton from "@/components/RemoveJobFromCookieButton";
@@ -74,7 +74,6 @@ export default async function JobInfoPage({ params: { id } }: GetJobInfoProps) {
       <h3 className="text-lg font-medium mb-3">Overview:</h3>
       <p>{job.description}</p>
 
-      
       <ul className="list-disc pl-5">
         {job.highlights
           .filter((highlight) => highlight !== "")

@@ -2,7 +2,7 @@ import CompanyListingItem from "@/components/CompanyListingItem";
 import prisma from "@/lib/db/prisma";
 import { getServerSession } from "next-auth";
 import React from "react";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import CompanyFilterSection from "./CompanyFilterSection";
 import PaginationBar from "@/components/PaginationBar";
 import CompanyPaginationBar from "./CompanyPaginationBar";
@@ -40,7 +40,7 @@ export default async function CompaniesPage({
       <CompanyFilterSection keywords={keywords} />
       <div className="p-4 max-w-7xl mx-auto flex flex-col border gap-12 items-center lg:flex-col min-h-screen lg:px-24">
         <div className="flex flex-col gap-8 items-center flex-1">
-        {companies.length === 0 && (
+          {companies.length === 0 && (
             <div className="card w-full lg:w-96 gap-3 items-center text-center justify-center flex">
               <svg
                 width="108"
