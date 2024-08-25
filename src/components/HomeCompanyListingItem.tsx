@@ -17,7 +17,7 @@ export default function HomeCompanyListingItem({
           <Image
             src={company.companyImage}
             className="rounded-t-lg max-h-44 w-full object-cover"
-            alt="Shoes"
+            alt="Company Image"
             width={384}
             height={384}
           />

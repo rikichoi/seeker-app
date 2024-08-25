@@ -21,7 +21,7 @@ export default function JobListingItem({ job, page }: JobListingItemProps) {
           <Image
             src={job.company.companyImage}
             className="rounded-t-md object-cover max-h-[384px]"
-            alt="Shoes"
+            alt="Company Image"
             width={1000}
             height={1000}
           />
