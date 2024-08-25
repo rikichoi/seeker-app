@@ -33,21 +33,17 @@ export default async function Navbar() {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              {session ? (
-                <>
-                  <li>
-                    <Link href={"/add-job"}>Add Job</Link>
-                  </li>
-                  <li>
-                    <Link href={"/add-company"}>Add Company</Link>
-                  </li>
-                </>
-              ) : (
-                ""
-              )}
-
+              <li>
+                <Link href={"/listings"}>Search Jobs</Link>
+              </li>
               <li>
                 <Link href={"/company"}>View Companies</Link>
+              </li>
+              <li>
+                <Link href={"/add-job"}>Add Job</Link>
+              </li>
+              <li>
+                <Link href={"/add-company"}>Add Company</Link>
               </li>
             </ul>
           </div>

@@ -48,52 +48,59 @@ async function createCompany(formData: FormData) {
 
 export default async function AddCompanyPage() {
   const session = await getServerSession(authOptions);
-  if (!session){
-    redirect("/api/auth/signin?callbackUrl=/add-company")
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/add-company");
   }
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className="text-3xl">Add Company</h1>
+    <div className="flex flex-col max-w-3xl p-3 mx-auto gap-3">
+      <h1 className="text-3xl font-bold text-center">Add Company</h1>
       <form className="flex flex-col gap-3" action={createCompany}>
         <input
+          required
           name="companyName"
           placeholder="Company Name"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
+          required
           name="industry"
           placeholder="Industry"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
+          required
           name="size"
           placeholder="Size"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
+          required
           name="location"
           placeholder="Location"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
+          required
           name="website"
           placeholder="Website"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
+          required
           name="description"
           placeholder="Description"
-          className="input input-bordered w-full max-w-xs"
+          className="input h-52 input-bordered w-full "
         />
         <input
+          required
           name="type"
           placeholder="Type"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="companyImage"
           placeholder="Company Image"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <button className="btn btn-primary">Add Company</button>
       </form>

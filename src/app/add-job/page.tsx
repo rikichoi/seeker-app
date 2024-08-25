@@ -85,7 +85,7 @@ export default async function AddJobPage() {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col max-w-3xl p-3 mx-auto gap-3">
       <h1 className="text-3xl font-bold text-center">Add Job</h1>
       <form action={createJob} className="flex flex-col gap-4">
         <input
@@ -98,7 +98,7 @@ export default async function AddJobPage() {
           required
           name="description"
           placeholder="Description"
-          className="input input-bordered w-full "
+          className="input h-52 input-bordered w-full "
         />
         <input
           required
@@ -175,6 +175,7 @@ export default async function AddJobPage() {
         />
 
         <select
+          required
           name="companyId"
           className="select select-bordered w-full max-w-xs"
         >

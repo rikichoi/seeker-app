@@ -14,7 +14,7 @@ export default function EditJobPage({
   params: { id },
 }: EditJobPageProps) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col max-w-3xl p-3 mx-auto gap-3">
       <h1 className="text-3xl font-bold text-center">Edit Job</h1>
       <form
         action={(formData) => EditJobDetails(id, formData)}

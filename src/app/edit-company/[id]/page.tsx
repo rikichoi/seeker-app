@@ -41,8 +41,9 @@ export default function EditCompanyPage({
   }, []);
 
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className="text-3xl">Edit Company</h1>
+    <div className="flex flex-col max-w-3xl p-3 mx-auto gap-3">
+
+      <h1 className="text-3xl font-bold text-center">Edit Company</h1>
       {sessionState ? <DeleteCompanyButton id={id} /> : ""}
       <form
         className="flex flex-col gap-3"
@@ -52,49 +53,49 @@ export default function EditCompanyPage({
           name="companyName"
           placeholder="Company Name"
           defaultValue={defaultValues?.companyName}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="industry"
           placeholder="Industry"
           defaultValue={defaultValues?.industry}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="size"
           placeholder="Size"
           defaultValue={defaultValues?.size}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="location"
           placeholder="Location"
           defaultValue={defaultValues?.location}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="website"
           placeholder="Website"
           defaultValue={defaultValues?.website}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="description"
           placeholder="Description"
           defaultValue={defaultValues?.description}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="type"
           placeholder="Type"
           defaultValue={defaultValues?.type}
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <input
           name="companyImage"
           defaultValue={defaultValues?.companyImage}
           placeholder="Company Image"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full "
         />
         <button className="btn btn-primary">Edit Company</button>
       </form>
